@@ -6,6 +6,7 @@ function App() {
  const [minutes, setMinutes] = useState(0);
  const [seconds, setSeconds] = useState(0);
  const [countdownActive, setCountdownActive] = useState(false);
+ const [dropDownValue, setDropDownValue] = useState<number>(0);
 
  useEffect(() => {
   let timer: any;
@@ -31,7 +32,16 @@ function App() {
   const value = parseInt(e.target.value, 10);
   setMinutes(value);
   setSeconds(0);
+  setDropDownValue(value);
+  console.log(value, "insideInputChange");
  };
+
+ const restartCountdown = () => {
+  console.log("Inside the restart function");
+  setMinutes(dropDownValue);
+ };
+
+ const isTimeEqualZero = minutes == 0 && seconds == 0 ? false : true;
 
  return (
   <div className="bg-slate-600 w-full h-screen flex justify-center items-center">
@@ -56,6 +66,13 @@ function App() {
     </div>
     <Button className="w-full text-xl p-8" onClick={startCountdown}>
      Iniciar
+    </Button>
+    <Button
+     disabled={isTimeEqualZero}
+     className="w-full text-xl p-8"
+     onClick={restartCountdown}
+    >
+     Reiniciar
     </Button>
    </div>
   </div>
