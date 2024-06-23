@@ -7,6 +7,7 @@ function App() {
  const [seconds, setSeconds] = useState(0);
  const [countdownActive, setCountdownActive] = useState(false);
  const [dropDownValue, setDropDownValue] = useState<number>(0);
+ const [buttonText, setButtonText] = useState("Iniciar");
 
  useEffect(() => {
   let timer: any;
@@ -21,11 +22,19 @@ function App() {
    }, 1000);
   }
 
+  if (seconds === 1 && minutes === 0) {
+   setButtonText("Reiniciar");
+  }
+
   return () => clearInterval(timer);
  }, [countdownActive, minutes, seconds]);
 
  const startCountdown = () => {
-  setCountdownActive(true);
+  if (buttonText === "Iniciar") {
+   setCountdownActive(true);
+  } else {
+   restartCountDown();
+  }
  };
 
  const handleInputChange = (e: any) => {
@@ -33,15 +42,12 @@ function App() {
   setMinutes(value);
   setSeconds(0);
   setDropDownValue(value);
-  console.log(value, "insideInputChange");
  };
 
- const restartCountdown = () => {
-  console.log("Inside the restart function");
+ const restartCountDown = () => {
   setMinutes(dropDownValue);
+  setSeconds(0);
  };
-
- const isTimeEqualZero = minutes == 0 && seconds == 0 ? false : true;
 
  return (
   <div className="bg-slate-600 w-full h-screen flex justify-center items-center">
@@ -65,14 +71,7 @@ function App() {
      <span>{String(seconds).padStart(2, "0")}</span>
     </div>
     <Button className="w-full text-xl p-8" onClick={startCountdown}>
-     Iniciar
-    </Button>
-    <Button
-     disabled={isTimeEqualZero}
-     className="w-full text-xl p-8"
-     onClick={restartCountdown}
-    >
-     Reiniciar
+     {buttonText}
     </Button>
    </div>
   </div>
