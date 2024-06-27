@@ -35,7 +35,7 @@ import { Input } from "./components/ui/input"
         return () => clearInterval(timer);
       }, [startCounting, minutes, seconds])
  
-      const handleStartCounting = (e:any) => {
+      const handleStartCounting = () => {
         if(buttonText === "Iniciar"){
           setStartCounting(true)
         } else {
